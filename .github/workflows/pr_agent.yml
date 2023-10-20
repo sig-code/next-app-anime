@@ -1,14 +1,16 @@
 on:
   pull_request:
   issue_comment:
+
 jobs:
-  pr_agent_job:
+  pr_agent:
     runs-on: ubuntu-latest
     permissions:
       issues: write
       pull-requests: write
       contents: write
-    name: Run pr agent on every pull request, respond to user comments
+    name: Run PR Agent
+    if: ${{ github.event.sender.type != 'Bot' }}
     steps:
       - name: PR Agent action step
         id: pragent
@@ -16,3 +18,9 @@ jobs:
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_REVIEWER.EXTRA_INSTRUCTIONS: "Please use Japanese in descriptions."
+          PR_DESCRIPTION.EXTRA_INSTRUCTIONS:
+            "Please use Japanese in descriptions and add those below existing descriptions, not overwrite those. Titles should not be overwritten."
+          github_action.auto_review: "true"
+          github_action.auto_describe: "false"
+          github_action.auto_improve: "true"
