@@ -1,6 +1,5 @@
 on:
   pull_request:
-  issue_comment:
 jobs:
   pr_agent_job:
     runs-on: ubuntu-latest
@@ -16,3 +15,10 @@ jobs:
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_REVIEWER.EXTRA_INSTRUCTIONS: "Please use Japanese in descriptions."
+          PR_DESCRIPTION.EXTRA_INSTRUCTIONS:
+            "Please use Japanese in descriptions and add those below existing
+            descriptions, not overwrite those. Titles should not be overwritten."
+          github_action.auto_review: "true"
+          github_action.auto_describe: "false"
+          github_action.auto_improve: "false"
